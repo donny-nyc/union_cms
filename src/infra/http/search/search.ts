@@ -8,10 +8,16 @@ router.use((req, _, next) => {
   next();
 });
 
-router.get('/', async (_: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   const collection = SearchController.db.collection("products");
 
-  const results = await collection.find({}).toArray();
+  console.log('[Request] ', req.query.q);
+
+  const match = new RegExp(`[${req.query.q}]`);
+
+  console.log('[Request] match: ', match);
+
+  const results = await collection.find({keywords: { $elemMatch: { $regex: match } }}).toArray();
 
   console.log('[search] results: ', results);
 
