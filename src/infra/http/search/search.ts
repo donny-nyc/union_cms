@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import SearchController from '../../../search/search';
+import SearchValidator from './search_validator';
 
 const router = express.Router()
 
@@ -9,15 +10,17 @@ router.use((req, _, next) => {
 });
 
 router.get('/', async (req: Request, res: Response) => {
-  const collection = SearchController.db.collection("products");
-
   console.log('[Request] ', req.query.q);
 
-  const match = new RegExp(`[${req.query.q}]`);
+  const errors: { [key: string]: string[] } = SearchValidator.validate(req.query.q);
 
-  console.log('[Request] match: ', match);
+  if (errors.length) {
+    res.status(400).json(errors);
+  }
 
-  const results = await collection.find({keywords: { $elemMatch: { $regex: match } }}).toArray();
+  const query: string = req.query.q as string;
+
+  const results = await SearchController.search(query);
 
   console.log('[search] results: ', results);
 

@@ -1,6 +1,7 @@
-import { Db, MongoClient } from "mongodb";
+import { Db, MongoClient } from 'mongodb';
+import { ProductDB } from '../types/db/product';
 
-class SearchController {
+class CrudController {
   client: MongoClient;
   db: Db;
 
@@ -11,6 +12,7 @@ class SearchController {
 
   public async dbConnect() {
     let conn;
+
     try {
       conn = await this.client.connect();
 
@@ -21,28 +23,25 @@ class SearchController {
     }
   }
 
-  public async search(query: string) {
+  public async create(name: string, price: number, keywords: string[]) {
     const collection = this.db.collection("products");
 
-    console.log('[search] ', query);
+    console.log('[create] ', name, price, keywords);
 
-    const match = new RegExp(`${query}`);
+    const results = await collection.insertOne({
+      name,
+      price,
+      keywords,
+    });
 
-    console.log('[search] match: ', match);
-
-    const results = await collection.find({keywords: { $elemMatch: { $regex: match } }}).toArray();
-
-    console.log('[search] results: ', results);
-
-    return results;
+    console.log('[create] ', results);
   }
-};
-
+}
 const connectionString = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
 
 const client = new MongoClient(connectionString);
 
-const controller = new SearchController(client);
+const controller = new CrudController(client);
 
 controller.dbConnect();
 
