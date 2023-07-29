@@ -32,4 +32,26 @@ describe("PUT /crud", () => {
 
     expect(res.statusCode).toBe(400);
   });
+
+  it("Bad Request, if name is missing", async () => {
+    const updated_product = {
+      name: "",
+    };
+
+    const id = "id";
+    const res = await request("localhost:9999").put(`/crud/${id}`).send(updated_product);
+
+    expect(res.statusCode).toBe(400);
+  });
+
+  it("Bad Request, if keywords is empty", async () => {
+    const updated_product = {
+      keywords: []
+    };
+
+    const id = "id";
+    const res = await request("localhost:9999").put(`/crud/${id}`).send(updated_product);
+
+    expect(res.statusCode).toBe(400);
+  });
 });

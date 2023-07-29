@@ -1,5 +1,6 @@
 import { Db, MongoClient } from 'mongodb';
 import { ProductDB } from '../types/db/product';
+import Repository from '../types/repository';
 
 class CrudController {
   client: MongoClient;

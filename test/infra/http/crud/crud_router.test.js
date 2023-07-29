@@ -38,4 +38,20 @@ describe("PUT /crud", () => {
         const res = yield (0, supertest_1.default)("localhost:9999").put(`/crud/${id}`).send(updated_product);
         expect(res.statusCode).toBe(400);
     }));
+    it("Bad Request, if name is missing", () => __awaiter(void 0, void 0, void 0, function* () {
+        const updated_product = {
+            name: "",
+        };
+        const id = "id";
+        const res = yield (0, supertest_1.default)("localhost:9999").put(`/crud/${id}`).send(updated_product);
+        expect(res.statusCode).toBe(400);
+    }));
+    it("Bad Request, if keywords is empty", () => __awaiter(void 0, void 0, void 0, function* () {
+        const updated_product = {
+            keywords: []
+        };
+        const id = "id";
+        const res = yield (0, supertest_1.default)("localhost:9999").put(`/crud/${id}`).send(updated_product);
+        expect(res.statusCode).toBe(400);
+    }));
 });

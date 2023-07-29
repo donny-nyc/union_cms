@@ -1,12 +1,9 @@
 import { Request } from 'express';
-
-type errorMap = {
-  [key: string]: string[]
-};
+import ErrorMap from './error_map';
 
 class UpdateRequestValidator {
-  public validate(req: Request): errorMap {
-    const errors: errorMap = {};
+  public validate(req: Request): ErrorMap {
+    const errors: ErrorMap = {};
 
     if(!req.params.id) {
       if(!errors['id']) {
@@ -16,12 +13,22 @@ class UpdateRequestValidator {
       errors['id'].push('cannot be null');
     }
 
-    if(req.body.name) {
-      
+    console.log(req.body);
+
+    if(req.body.name !== undefined && req.body.name.length === 0) {
+      if(!errors['name']) {
+        errors['name'] = [];
+      }
+
+      errors['name'].push('cannot be empty');
     }
 
-    if(req.body.keywords) {
+    if(req.body.keywords !== undefined && req.body.keywords.length === 0) {
+      if(!errors['keywords']) {
+        errors['keywords'] = [];
+      }
 
+      errors['keywords'].push('cannot be empty');
     }
 
     if(req.body.price) {
