@@ -1,4 +1,5 @@
 import Repository, { RemoveSuccessMessage, RecordNotFound, InsertResponse, UpdateSuccessMessage } from '../types/repository';
+import DummyRepository from '../infra/repos/dummy_repo';
 
 export interface CrudControllerResponse {
   message: string;
@@ -58,7 +59,7 @@ export class Found implements CrudControllerResponse {
 class CrudController {
   repository: Repository;
 
-  constructor(repo: Repository) {
+  private constructor(repo: Repository) {
     this.repository = repo;
   }
 
@@ -138,10 +139,10 @@ class CrudController {
 
     return new Found(result.records);
   }
+
+  public static newDummyCrudController() {
+    return new CrudController(DummyRepository);
+  }
 }
 
-export const CrudControllerFactory = (repo: Repository): CrudController => {
-  return new CrudController(repo);
-};
-
-export default CrudControllerFactory;
+export default CrudController;

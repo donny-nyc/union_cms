@@ -31,14 +31,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const dummy_repo_1 = __importDefault(require("../../src/infra/repos/dummy_repo"));
 const crud_controller_1 = __importStar(require("../../src/crud/crud_controller"));
 const repository_1 = require("../../src/types/repository");
-const crudController = (0, crud_controller_1.default)(dummy_repo_1.default);
+const crudController = crud_controller_1.default.newDummyCrudController();
 describe("crud controller create", () => {
     it("inserts a new record", () => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield crudController.create("name", 5, ["keywords"]);

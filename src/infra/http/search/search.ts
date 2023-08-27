@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import SearchController from '../../../search/search';
+import { searchController } from '../../..';
 import SearchValidator from './search_validator';
 
 const router = express.Router()
@@ -20,7 +20,7 @@ router.get('/', async (req: Request, res: Response) => {
 
   const query: string = req.query.q as string;
 
-  const results = await SearchController.search(query);
+  const results = await searchController.search(query);
 
   console.log('[search] results: ', results);
 

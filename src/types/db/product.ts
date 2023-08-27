@@ -1,6 +1,7 @@
-export type ProductDB = {
-  _id: string,
-  name: string,
-  price: number,
-  keywords: string[],
+import type { WithId, Document } from 'mongodb';
+
+export interface ProductDB extends WithId<Document> {
+  name: string;
+  price: number;
+  keywords: string[];
 };

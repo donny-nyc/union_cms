@@ -1,8 +1,7 @@
-import dummyRepo from "../../src/infra/repos/dummy_repo";
-import CrudControllerFactory, { Removed, Created, Updated, NotFound, CrudControllerResponse, Found } from "../../src/crud/crud_controller";
+import CrudController, { Removed, Created, Updated, NotFound, CrudControllerResponse, Found } from "../../src/crud/crud_controller";
 import {UpdateSuccessMessage} from "../../src/types/repository";
 
-const crudController = CrudControllerFactory(dummyRepo);
+const crudController = CrudController.newDummyCrudController();
 
 describe("crud controller create", () => {
   it("inserts a new record", async () => {

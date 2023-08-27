@@ -3,9 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import SearchRouter from './infra/http/search/search';
 import CrudRouter from './infra/http/crud/crud_router';
-
-import DummyRepository from "./infra/repos/dummy_repo";
-import CrudControllerFactory from "./crud/crud_controller";
+import CrudController from "./crud/crud_controller";
+import SearchController from "./search/search";
 
 dotenv.config();
 
@@ -17,7 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 // Inject Dependencies
-export const crudController = CrudControllerFactory(DummyRepository);
+export const crudController = CrudController.newDummyCrudController();
+export const searchController = SearchController.newDummySearchController();
 
 app.get('/', (_: Request, res: Response) => {
   res.json({ message: 'Express CMS' });

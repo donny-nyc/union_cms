@@ -1,49 +1,30 @@
-import { Db, MongoClient } from "mongodb";
+import SearchRepo from "./repos/search_repo_i";
+import DummySearchRepo from "./repos/dummy_search_repo";
+import MongoSearchRepo from './repos/mongo_search_repo';
+import Product from "../types/product";
 
-class SearchController {
-  client: MongoClient;
-  db: Db;
+export default class SearchController {
+  private repo: SearchRepo;
 
-  constructor(client: MongoClient) {
-    this.client = client;
-    this.db = new Db(client, "grocery");
+  private constructor(repo: SearchRepo) {
+    this.repo = repo;
   }
 
-  public async dbConnect() {
-    let conn;
-    try {
-      conn = await this.client.connect();
+  public async search(query: string): Promise<Product[]> {
+    const searchResults = await this.repo.find_by_regex(query);
 
-      this.db = conn.db("grocery");
-      console.log('[mongo] connected');
-    } catch(e) {
-      console.error(e);
+    return searchResults;
+  }
+
+  public static newDummySearchController(mocks?: Product[]): SearchController {
+    if (mocks) {
+      DummySearchRepo.setRecords(mocks);
     }
+
+    return new SearchController(DummySearchRepo);
   }
 
-  public async search(query: string) {
-    const collection = this.db.collection("products");
-
-    console.log('[search] ', query);
-
-    const match = new RegExp(`${query}`);
-
-    console.log('[search] match: ', match);
-
-    const results = await collection.find({keywords: { $elemMatch: { $regex: match } }}).toArray();
-
-    console.log('[search] results: ', results);
-
-    return results;
+  public static newSearchController(): SearchController {
+    return new SearchController(MongoSearchRepo);
   }
 };
-
-const connectionString = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
-
-const client = new MongoClient(connectionString);
-
-const controller = new SearchController(client);
-
-controller.dbConnect();
-
-export default controller;
