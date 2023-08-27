@@ -13,8 +13,6 @@ class UpdateRequestValidator {
       errors['id'].push('cannot be null');
     }
 
-    console.log(req.body);
-
     if(req.body.name !== undefined && req.body.name.length === 0) {
       if(!errors['name']) {
         errors['name'] = [];
