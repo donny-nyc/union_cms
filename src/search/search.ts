@@ -16,15 +16,19 @@ export default class SearchController {
     return searchResults;
   }
 
+  public async fetch(id: string): Promise<Product | null> {
+    return await this.repo.find_by_id(id);
+  }
+
   public static newDummySearchController(mocks?: Product[]): SearchController {
     if (mocks) {
-      DummySearchRepo.setRecords(mocks);
+      DummySearchRepo.insert_all(mocks);
     }
 
     return new SearchController(DummySearchRepo);
   }
 
   public static newSearchController(): SearchController {
-    return new SearchController(MongoSearchRepo);
+    return new SearchController(MongoSearchRepo.newRepo());
   }
 };

@@ -1,3 +1,5 @@
+import Product from "../../types/product";
+
 export interface RepoResult  {
   message: string;
   failure: boolean;
@@ -42,9 +44,8 @@ export type FindResponse = {
   records?: any[];
 }
 
-export default interface Repository {
-  insert(record: any): InsertResponse;
-  update(record: any): UpdateResponse;
-  remove(id: string): RemoveResponse;
-  find(id: string): FindResponse;
+export default interface CrudRepo {
+  insert(record: Omit<Product, "id">): Promise<InsertResponse>;
+  remove(id: string): Promise<RemoveResponse>;
+  update(record: Product): Promise<UpdateResponse>;
 };

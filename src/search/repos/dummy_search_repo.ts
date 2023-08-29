@@ -1,14 +1,29 @@
 import Product from "../../types/product";
 import SearchRepo from "./search_repo_i";
 import MockProducts from './mocks/mock_products';
+import Store, { InMemoryStore, NotFound } from '../../infra/memory_store';
 
 class DummySearchRepo implements SearchRepo {
-  private records: Product[] = [];
+  private store: InMemoryStore;
 
-  constructor() {
-    this.records.push(...MockProducts);
+  private constructor(store: InMemoryStore) {
+    this.store = store;
 
-    console.log('[DummySearchRepo]', this.records);
+    this.insert_all(MockProducts);
+
+    console.log('[DummySearchRepo]');
+  }
+
+  public static newRepo() {
+    return new DummySearchRepo(Store);
+  }
+
+  public async find_by_id(id: string): Promise<Product | null> {
+    if(this.store.find(id) instanceof NotFound) {
+      return null;
+    }
+
+    return this.store.find(id);
   }
 
   public async find_by_regex(query: string): Promise<Product[]> {
@@ -26,7 +41,7 @@ class DummySearchRepo implements SearchRepo {
       });
     }
 
-    const results: Product[] = this.records.filter(matchesKeyword);
+    const results: Product[] = Array.from(this.store.getRecords().values()).filter(matchesKeyword);
 
     console.log('[find_by_regex]', results);
 
@@ -35,11 +50,11 @@ class DummySearchRepo implements SearchRepo {
     });
   }
 
-  public setRecords(products: Product[]) {
-    this.records = products;
+  public insert_all(mocks: Product[]) {
+    this.store.insert_all(mocks);
   }
 };
 
-const repo = new DummySearchRepo();
+const repo = DummySearchRepo.newRepo();
 
 export default repo;

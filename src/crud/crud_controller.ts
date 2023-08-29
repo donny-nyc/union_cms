@@ -1,5 +1,6 @@
-import Repository, { RemoveSuccessMessage, RecordNotFound, InsertResponse, UpdateSuccessMessage } from '../types/repository';
-import DummyRepository from '../infra/repos/dummy_repo';
+import CrudRepo, { RemoveSuccessMessage, RecordNotFound, InsertResponse, UpdateSuccessMessage } from './repos/crud_repo_i';
+import DummyRepository from './repos/dummy_repo';
+import MongoCrudRepo from './repos/mongo_crud_repo';
 
 export interface CrudControllerResponse {
   message: string;
@@ -57,16 +58,16 @@ export class Found implements CrudControllerResponse {
 }
 
 class CrudController {
-  repository: Repository;
+  repository: CrudRepo;
 
-  private constructor(repo: Repository) {
+  private constructor(repo: CrudRepo) {
     this.repository = repo;
   }
 
   public async create(name: string, price: number, keywords: string[]) {
     console.log('[crud_controller create] ', name, price, keywords);
 
-    const result: InsertResponse = this.repository.insert({
+    const result: InsertResponse = await this.repository.insert({
       name,
       price,
       keywords,
@@ -88,7 +89,7 @@ class CrudController {
   public async update(id: string, name: string, price: number, keywords: string[]) {
     console.log('[crud controller update] ', name, price, keywords);
 
-    const result = this.repository.update({
+    const result = await this.repository.update({
       id,
       name,
       price,
@@ -120,28 +121,12 @@ class CrudController {
     return new Removed([id]);
   }
 
-  public async find_one(id: string) {
-    console.log('[crud controller find_one]', id);
-
-    const result = this.repository.find(id);
-
-    if (result instanceof RecordNotFound) {
-      return new NotFound(id);
-    }
-
-    if (result.failure) {
-      throw new Error(result.message);
-    }
-
-    if (!result.records) {
-      throw new Error("no results returned");
-    }
-
-    return new Found(result.records);
-  }
-
   public static newDummyCrudController() {
     return new CrudController(DummyRepository);
+  }
+
+  public static newMongoCrudController() {
+    return new CrudController(MongoCrudRepo.newRepo());
   }
 }
 

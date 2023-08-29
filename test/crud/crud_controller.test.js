@@ -31,20 +31,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const crud_controller_1 = __importStar(require("../../src/crud/crud_controller"));
-const repository_1 = require("../../src/types/repository");
+const crud_repo_i_1 = require("../../src/crud/repos/crud_repo_i");
+const search_1 = __importDefault(require("../../src/search/search"));
 const crudController = crud_controller_1.default.newDummyCrudController();
+const searchController = search_1.default.newDummySearchController();
 describe("crud controller create", () => {
     it("inserts a new record", () => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield crudController.create("name", 5, ["keywords"]);
         expect(result.failure).not.toBeTruthy();
-        const searchResult = yield crudController.find_one(result.results.at(0).id);
-        expect(searchResult instanceof crud_controller_1.Found).toBeTruthy();
-        expect(searchResult.failure).not.toBeTruthy();
-        expect(searchResult.results).not.toBeUndefined();
-        expect(searchResult.results.length).toBe(1);
-        const created = searchResult.results.at(0);
+        const created = yield searchController.fetch(result.results.at(0).id);
         expect(created.name).toEqual("name");
         expect(created.price).toEqual(5);
         expect(created.keywords).toEqual(["keywords"]);
@@ -59,7 +59,7 @@ describe("crud controller update", () => {
         console.log(`[updated result]`, updatedResult);
         expect(updatedResult instanceof crud_controller_1.Updated).toBeTruthy();
         expect(updatedResult.failure).not.toBeTruthy();
-        expect(updatedResult.message).toEqual(repository_1.UpdateSuccessMessage);
+        expect(updatedResult.message).toEqual(crud_repo_i_1.UpdateSuccessMessage);
         expect(updatedResult.results.length).toEqual(1);
         const updated = updatedResult.results.at(0);
         expect(updated.name).toEqual("updated name");
@@ -83,8 +83,8 @@ describe("crud controller remove", () => {
         expect(removeResult instanceof crud_controller_1.Removed).toBeTruthy();
         expect(removeResult.results.length).toEqual(1);
         expect(removeResult.results.at(0)).toEqual(toRemove.id);
-        const findResult = yield crudController.find_one(toRemove.id);
-        expect(findResult instanceof crud_controller_1.NotFound);
+        const findResult = yield searchController.fetch(toRemove.id);
+        expect(findResult).toBeNull();
     }));
     it("returns Not Found if the record doesn't exist", () => __awaiter(void 0, void 0, void 0, function* () {
         const randomId = Math.floor(Math.random() * 1000).toString();
@@ -96,11 +96,7 @@ describe("crud controller find", () => {
     it("finds an existing record", () => __awaiter(void 0, void 0, void 0, function* () {
         const createRecord = yield crudController.create("name", 10, ["keywords"]);
         const toFind = createRecord.results.at(0);
-        const findResult = yield crudController.find_one(toFind.id);
-        console.log(`[to find]`, toFind);
-        expect(findResult instanceof crud_controller_1.Found);
-        const found = findResult.results.at(0);
-        console.log(`[found]`, found);
+        const found = yield searchController.fetch(toFind.id);
         expect(found.name).toEqual("name");
         expect(found.id).toEqual(toFind.id);
         expect(found.keywords).toEqual(["keywords"]);
@@ -108,7 +104,7 @@ describe("crud controller find", () => {
     }));
     it("returns not found when the record doesn't exist", () => __awaiter(void 0, void 0, void 0, function* () {
         const randomId = Math.floor(Math.random() * 1000).toString();
-        const findResults = yield crudController.find_one(randomId);
-        expect(findResults instanceof crud_controller_1.NotFound);
+        const findResults = yield searchController.fetch(randomId);
+        expect(findResults).toBeNull();
     }));
 });
