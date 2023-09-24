@@ -1,6 +1,7 @@
-import CrudRepo, { CreateSuccessMessage, FindResponse, InsertResponse, RecordNotFound, RemoveResponse, UpdateResponse } from './crud_repo_i';
+import CrudRepo, { BulkInsertResponse, CreateSuccessMessage, FindResponse, InsertResponse, RecordNotFound, RemoveResponse, UpdateResponse } from './crud_repo_i';
 
 import Store, { InMemoryStore, NotFound } from '../../infra/memory_store';
+import Product from '../../types/product';
 
 const randomInt = (max: number): string => {
   const id: number = Math.floor(Math.random() * max);
@@ -18,6 +19,24 @@ class DummyRepository implements CrudRepo{
   public static newRepo() {
     return new DummyRepository(Store);
   }
+
+  public async bulk_insert(records: Product[]): Promise<BulkInsertResponse> {
+    console.log('[bulk insert] ', records.length);
+
+    records.forEach((record: Product) => {
+      const id = randomInt(10000);
+      record.id = id;
+      this.store.set(id, record);
+    });
+
+    console.log('dummy bulk insert ids: ', records.map(record => { return record.id }));
+
+    return {
+      ids: records.map(record => { return record.id!}),
+      message: `bulk insert ${records.length} records`,
+      failure: false,
+    }
+  };
 
   public async insert(record: any): Promise<InsertResponse> {
     const id = randomInt(1000);

@@ -113,3 +113,38 @@ describe("crud controller find", () => {
     expect(findResults).toBeNull();
   });
 });
+
+describe("crud controller bulk insert", () => {
+  it.only("successfully creates each new record", async () => {
+    const productCount: number = Math.floor(Math.random() * 10000);
+
+    const products: Product[] = [];
+    for(let i = 0; i < productCount; ++i) {
+      products.push({
+        name: `product ${i}`,
+        price: Math.floor(Math.random() * 1000),
+        keywords: ['mock', 'key', 'word'],
+      });
+    }
+
+    const response: CrudControllerResponse = await crudController.bulk_insert(products);
+
+    expect(response.results!.length).toEqual(productCount);
+    expect(response.failure).toBeFalsy();
+
+    // var in !== var of
+    for(var id of response.results!) {
+      console.log('find id: ', id);
+      const product: Product = await searchController.fetch(id) as Product;
+
+      expect(product).not.toBeNull();
+    }
+
+    for(var id of response.results!) {
+      const deleteResult: CrudControllerResponse = await crudController.remove(id);
+
+      expect(deleteResult instanceof NotFound).toBeFalsy();
+      expect(deleteResult.failure).toBeFalsy();
+    }
+  });
+});

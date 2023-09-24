@@ -19,6 +19,12 @@ export const CreateSuccessMessage = "Created";
 export const UpdateSuccessMessage = "Updated";
 export const RemoveSuccessMessage = "Removed";
 
+export type BulkInsertResponse = {
+  ids: string[];
+  message: string;
+  failure: boolean;
+};
+
 export type InsertResponse = {
   id?: string;
   message: string;
@@ -48,4 +54,5 @@ export default interface CrudRepo {
   insert(record: Omit<Product, "id">): Promise<InsertResponse>;
   remove(id: string): Promise<RemoveResponse>;
   update(record: Product): Promise<UpdateResponse>;
+  bulk_insert(records: Product[]): Promise<BulkInsertResponse>;
 };

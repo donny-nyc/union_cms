@@ -1,4 +1,5 @@
-import CrudRepo, { RemoveSuccessMessage, RecordNotFound, InsertResponse, UpdateSuccessMessage } from './repos/crud_repo_i';
+import Product from '../types/product';
+import CrudRepo, { RemoveSuccessMessage, RecordNotFound, InsertResponse, UpdateSuccessMessage, BulkInsertResponse } from './repos/crud_repo_i';
 import DummyRepository from './repos/dummy_repo';
 import MongoCrudRepo from './repos/mongo_crud_repo';
 
@@ -14,6 +15,16 @@ export class NotFound {
 
   constructor(id: string) {
     this.message = `Resource not found: ${id}`;
+  }
+};
+
+export class BulkInserted implements CrudControllerResponse {
+  message: string = "Bulk Inserted";
+  failure: boolean = false;
+  results: any[] = [];
+
+  constructor(ids: string[]) {
+    this.results.push(...ids);
   }
 };
 
@@ -84,6 +95,18 @@ class CrudController {
     }
 
     return new Created(result.id);
+  }
+
+  public async bulk_insert(products: Product[]) {
+    console.log('[crud_controller bulk_insert]: ', products.length);
+
+    const result: BulkInsertResponse = await this.repository.bulk_insert(products);
+
+    if (result.failure) {
+      throw new Error(result.message);
+    }
+
+    return new BulkInserted(result.ids);
   }
 
   public async update(id: string, name: string, price: number, keywords: string[]) {

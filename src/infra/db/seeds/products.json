@@ -1,0 +1,407 @@
+{
+  "products": [
+    {
+      "name": "STASHER SILICONE STORAGE BAGS",
+      "price": 999,
+      "keywords": ["storage", "bag", "stasher", "silicone"]
+    },
+    {
+      "name": "GRADY’S COLD BREW CONCENTRATE",
+      "price": 1499,
+      "keywords": ["coffee", "GRADY", "cold brew", "drink", "beverage"]
+    },
+    {
+      "name": "UNION MARKET CHEESE RAVIOLETTE",
+      "price": 749,
+      "keywords": ["pasta", "dinner", "cheese", "ravioli", "raviolette"]
+    },
+    {
+      "name": "UNION MARKET ROASTED GARLIC SAUCE",
+      "price": 699,
+      "keywords": ["garlic", "sauce", "pasta"]
+    },
+    {
+      "name": "LIONI BURRATA",
+      "price": 899,
+      "keywords": ["cheese", "burrata", "cream", "mozzarella"]
+    },
+    {
+      "name": "Hass Avocado",
+      "price": 279,
+      "keywords": ["avocado", "hass", "produce", "fruit", "snack"]
+    },
+    {
+      "name": "Bilinski Chicken Lemon Herb Sausage",
+      "price": 899,
+      "keywords": ["chicken", "sausage", "protein", "meat"]
+    },
+    {
+      "name": "Cantalet",
+      "price": 1499,
+      "unit": "lb",
+      "keywords": ["cheese", "dairy", "french", "cow"]
+    },
+    {
+      "name": "Flat Parsley",
+      "price": 219,
+      "keywords": ["produce", "herb"]
+    },
+    {
+      "name": "La Tourangella Avocado Oil",
+      "price": 1699,
+      "keywords": ["avocado", "oil", "la tourangella", "cooking"]
+    },
+    {
+      "name": "Organic Escarole Lettuce",
+      "price": 199,
+      "keywords": ["escarole", "lettuce", "produce"]
+    },
+    {
+      "name": "Locatelli Pecorino Romano",
+      "price": 1599,
+      "unit": "lb",
+      "keywords": ["cheese", "pecorino romano", "italian", "italy"]
+    },
+    {
+      "name": "Navel Orange",
+      "price": 169,
+      "unit": "lb",
+      "keywords": ["navel", "orange", "fruit", "citrus"]
+    },
+    {
+      "name": "Organic Lemon",
+      "price": 109,
+      "keywords": ["fruit", "citrus"]
+    },
+    {
+      "name": "Organic Valley Half & Half",
+      "price": 399,
+      "keywords": ["coffee", "dairy", "half & half", "half and half"]
+    },
+    {
+      "name": "Provolone",
+      "price": 1499,
+      "unit": "lb",
+      "keywords": ["cheese", "Dairy", "provolone", "italian", "italy"]
+    },
+    {
+      "name": "Ritter Marzipan Chocolate",
+      "price": 399,
+      "keywords": ["chocolate", "dessert", "marzipan"]
+    },
+    {
+      "name": "Rodolphe Mueunier Butter",
+      "price": 1199,
+      "keywords": ["butter", "dairy"]
+    },
+    {
+      "name": "Organic Scallions",
+      "price": 179,
+      "keywords": ["produce", "chive"]
+    },
+    {
+      "name": "Swiss Gruyere",
+      "price": 2199,
+      "unit": "lb",
+      "keywords": ["cheese", "dairy", "cow", "swiss"]
+    },
+    {
+      "name": "Heirloom Tomato",
+      "price": 499,
+      "unit": "lb",
+      "keywords": ["produce"]
+    },
+    {
+      "name": "Union Market Roasted Salted Cashews",
+      "price": 699,
+      "keywords": ["snack", "nuts"]
+    },
+    {
+      "name": "Union Market Large Cage Free Organic Eggs",
+      "price": 559,
+      "keywords": ["eggs", "dairy", "breakfast"]
+    },
+    {
+      "name": "Union Market Organic Turkish Figs",
+      "price": 599,
+      "keywords": ["figs", "snack", "dried fruit"]
+    },
+    {
+      "name": "Union Market Raw Pepitas",
+      "price": 469,
+      "keywords": ["pumpkin seeds", "snack"]
+    },
+    {
+      "name": "Vosges Black Salt Caramel Chocolate",
+      "price": 799,
+      "keywords": ["chocolate", "dessert"]
+    },
+    {
+      "name": "Almond Breeze Unsweetened Almond Milk Original",
+      "price": 549,
+      "keywords": ["plant milk", "non dairy"]
+    },
+    {
+      "name": "Organic Honey Crisp Apple",
+      "price": 399,
+      "unit": "lb",
+      "keywords": ["fruit", "produce", "snack"]
+    },
+    {
+      "name": "Organic Carrot Bunch",
+      "price": 249,
+      "keywords": ["vegetable", "produce"]
+    },
+    {
+      "name": "Celery",
+      "price": 299,
+      "keywords": ["vegetable", "produce"]
+    },
+    {
+      "name": "Chobani Plain Greek Yogurt",
+      "price": 699,
+      "keywords": ["dairy", "snack", "breakfast"]
+    },
+    {
+      "name": "Dandelion Greens",
+      "price": 349,
+      "keywords": ["vegetable", "produce"]
+    },
+    {
+      "name": "Firehook Crackers Garlic Thyme",
+      "price": 799,
+      "keywords": ["snack"]
+    },
+    {
+      "name": "Grana Padano Cheese",
+      "price": 1399,
+      "unit": "lb",
+      "keywords": ["cheese", "dairy", "italy", "italian"]
+    },
+    {
+      "name": "Ruby Red Grapefruit",
+      "price": 299,
+      "keywords": ["fruit", "produce", "citrus"]
+    },
+    {
+      "name": "Organic Cilantro",
+      "price": 219,
+      "keywords": ["herb", "produce"]
+    },
+    {
+      "name": "Organic Dill",
+      "price": 319,
+      "keywords": ["herb", "produce"]
+    },
+    {
+      "name": "Organic Mint",
+      "price": 249,
+      "keywords": ["herb", "produce", "mojito"]
+    },
+    {
+      "name": "Original Ithaca Hummus",
+      "price": 549,
+      "keywords": ["snack", "chick peas", "garbanzo"]
+    },
+    {
+      "name": "Romaine Lettuce",
+      "price": 349,
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Mother's Kimchi Napa Cabbage",
+      "price": 1049,
+      "keywords": ["korean", "asian", "pickle"]
+    },
+    {
+      "name": "Newman's Organic Raisins",
+      "price": 899,
+      "keywords": ["snack", "dried fruit"]
+    },
+    {
+      "name": "White Jumbo Onion",
+      "price": 169,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Medium Yellow Onion",
+      "price": 129,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Cara Cara Orange",
+      "price": 199,
+      "unit": "lb",
+      "keywords": ["produce", "fruit", "citrus"]
+    },
+    {
+      "name": "Jalapeno Pepper",
+      "price": 399,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable", "spicy"]
+    },
+    {
+      "name": "Red Bell Pepper",
+      "price": 349,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Organic Radish Bunch",
+      "price": 269,
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Snack Factory Buffalo Wing Pretzel Crisps",
+      "price": 399,
+      "keywords": ["snack", "chips", "spicy"]
+    },
+    {
+      "name": "Organic Red Swiss Chard",
+      "price": 349,
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Stonewall Kitchen Country Ketchup",
+      "price": 799,
+      "keywords": ["sauce", "condiment"]
+    },
+    {
+      "name": "Wild Wonders Tomatoes",
+      "price": 599,
+      "keywords": ["produce"]
+    },
+    {
+      "name": "Union Market Roasted Unsalted Almonds",
+      "price": 599,
+      "keywords": ["snack", "nuts"]
+    },
+    {
+      "name": "Volpi Salami Pinot Grigio",
+      "price": 899,
+      "keywords": ["snack", "protein", "meat", "dried meat"]
+    },
+    {
+      "name": "Vermont Creamery Plain Goat Cheese Log 8oz",
+      "price": 899,
+      "keywords": ["cheese", "dairy"]
+    },
+    {
+      "name": "Wyman's Frozen Blueberries",
+      "price": 1599,
+      "keywords": ["frozen", "fruit"]
+    },
+    {
+      "name": "Organic Bananas",
+      "price": 129,
+      "unit": "lb",
+      "keywords": ["fruit", "produce", "smoothie"]
+    },
+    {
+      "name": "Organic Basil Clamshell",
+      "price": 399,
+      "keywords": ["herb", "produce"]
+    },
+    {
+      "name": "Baby Bok Choy",
+      "price": 299,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Cascadian Frozen Mango Strawberry Mix",
+      "price": 1799,
+      "keywords": ["frozen", "fruit", "smoothie"]
+    },
+    {
+      "name": "Fiddlehead Ferns",
+      "price": 2299,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Frankie's Olive Oil 1 Liter",
+      "price": 2999,
+      "keywords": ["evoo", "oil"]
+    },
+    {
+      "name": "Heinz Distilled White Vinegar 32oz",
+      "price": 349,
+      "keywords": ["vinegar", "cooking", "pickles"]
+    },
+    {
+      "name": "Organic Thyme",
+      "price": 299,
+      "keywords": ["produce", "herb"]
+    },
+    {
+      "name": "Lime",
+      "price": 69,
+      "keywords": ["produce", "citrus", "margarita"]
+    },
+    {
+      "name": "Native Forest Coconut Milk",
+      "price": 319,
+      "keywords": ["curry"]
+    },
+    {
+      "name": "Anjou Pear",
+      "price": 269,
+      "unit": "lb",
+      "keywords": ["produce", "fruit"]
+    },
+    {
+      "name": "Green Serrano Peppers",
+      "price": 399,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable", "spicy"]
+    },
+    {
+      "name": "Fingerling Potatoes",
+      "price": 199,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable", "starch"]
+    },
+    {
+      "name": "Rosemary Rotisserie Chicken",
+      "price": 599,
+      "unit": "lb",
+      "keywords": ["prepared", "protein", "meat"]
+    },
+    {
+      "name": "Organic Spinach Bunch",
+      "price": 349,
+      "keywords": ["produce", "vegetable"]
+    },
+    {
+      "name": "Beefsteak Tomato",
+      "price": 299,
+      "unit": "lb",
+      "keywords": ["produce", "fruit", "vegetable"]
+    },
+    {
+      "name": "Tomatoes On the Vine",
+      "price": 299,
+      "unit": "lb",
+      "keywords": ["produce", "fruit", "vegetables"]
+    },
+    {
+      "name": "Top Seedz Arrowroot Crackers",
+      "price": 899,
+      "keywords": ["snack", "healthy"]
+    },
+    {
+      "name": "Union Market Organic Pine Nuts",
+      "price": 899,
+      "keywords": ["pesto", "nuts", "cooking"]
+    },
+    {
+      "name": "Organic Garnet Yam",
+      "price": 299,
+      "unit": "lb",
+      "keywords": ["produce", "vegetable"]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import { Collection, Db, InsertOneResult, MongoClient, ObjectId } from 'mongodb';
 import Product from '../../types/product';
-import CrudRepo, { InsertResponse, RemoveResponse, UpdateResponse } from './crud_repo_i';
+import CrudRepo, { BulkInsertResponse, InsertResponse, RemoveResponse, UpdateResponse } from './crud_repo_i';
 
 export default class MongoCrudRepo implements CrudRepo {
   private client: MongoClient;
@@ -40,10 +40,50 @@ export default class MongoCrudRepo implements CrudRepo {
     }
   }
 
+  public async bulk_insert(records: Product[]): Promise<BulkInsertResponse> {
+    console.log('[mongo crud] bulk insert ', records.length!);
+
+    await this.collection.bulkWrite(
+      records.map((record: Product) => {
+        return {
+          insertOne: {
+            document: record
+          }
+        }
+      })
+    );
+
+    return {
+      ids: records.map((record) => { return record.id! }),
+      message: `bulk insert ${records.length} records`,
+      failure: false,
+    }
+  }
+
   public async remove(id: string): Promise<RemoveResponse> {
-    await this.collection.findOneAndDelete({
-      _id: new ObjectId(id),
+    console.log('[mongo crud] remove ', id!);
+
+    let objectId;
+
+    try {
+      objectId = new ObjectId(id);
+    } catch (error: any) {
+      return {
+        message: `${error}`,
+        failure: true,
+      }
+    }
+
+    const result = await this.collection.findOneAndDelete({
+      _id: objectId,
     });
+
+    if (!result.value!) {
+      return {
+        message: `not found: ${id}`,
+        failure: true,
+      }
+    }
 
     return {
       message: `removed object ${id}`,
@@ -52,8 +92,20 @@ export default class MongoCrudRepo implements CrudRepo {
   }
 
   public async update(record: Product): Promise<UpdateResponse> {
+    let objectId;
+
+    try {
+      objectId = new ObjectId(record.id);
+    } catch (error: any) {
+      return {
+        message: `${error}`,
+        failure: true,
+      }
+    }
+
+    console.log('[mongo update]: ', record.id!); 
     const result = await this.collection.findOneAndUpdate({
-      _id: new ObjectId(record.id),
+      _id: objectId,
     }, {
       $set: {
         name: record.name,
@@ -63,6 +115,15 @@ export default class MongoCrudRepo implements CrudRepo {
     }, {
       returnDocument: "after",
     });
+
+    if (!result.value!) {
+      return {
+        message: `failed to update ${record.id}`,
+        failure: true,
+      }
+    }
+
+    console.log('[mongo update] updated: ', result.value);
 
     return {
       id: result.value?._id.toString(),

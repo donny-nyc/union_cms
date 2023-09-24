@@ -5,6 +5,7 @@ import SearchRouter from './infra/http/search/search';
 import CrudRouter from './infra/http/crud/crud_router';
 import CrudController from "./crud/crud_controller";
 import SearchController from "./search/search";
+import products from './infra/db/seeds/products.json';
 
 dotenv.config();
 
@@ -18,6 +19,10 @@ app.use(express.json());
 // Inject Dependencies
 export const crudController = CrudController.newDummyCrudController();
 export const searchController = SearchController.newDummySearchController();
+
+// seed db
+console.log(products);
+crudController.bulk_insert(products.products);
 
 app.get('/', (_: Request, res: Response) => {
   res.json({ message: 'Express CMS' });

@@ -27,17 +27,17 @@ class DummySearchRepo implements SearchRepo {
   }
 
   public async find_by_regex(query: string): Promise<Product[]> {
-    const match = new RegExp(query);
+    const match = new RegExp(query.toLowerCase());
 
     console.log('[find_by_regex] match: ', match);
 
     const matchesKeyword = (record: Product) => {
-      console.log(record.keywords.some(keyword => {
-        return match.test(keyword)
-      }));
+      if (match.test(record.name.toLowerCase())) {
+        return true;
+      }
 
       return record.keywords.some(keyword => {
-        return match.test(keyword)
+        return match.test(keyword.toLowerCase())
       });
     }
 
