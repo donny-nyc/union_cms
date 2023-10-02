@@ -68,11 +68,40 @@ export class Found implements CrudControllerResponse {
   }
 }
 
+export class Fetched implements CrudControllerResponse {
+  message: string = "found";
+  failure: boolean = false;
+  product: Product;
+
+  constructor(product: Product) {
+    this.product = product;
+  }
+}
+
 class CrudController {
   repository: CrudRepo;
 
   private constructor(repo: CrudRepo) {
     this.repository = repo;
+  }
+
+  public async fetch(id: string) {
+    console.log('[crud_controller fetch]', id);
+
+    const result = await this.repository.fetch_by_id(id);
+
+    if (result instanceof RecordNotFound) {
+      console.log('[crud controller] record not found');
+      return new NotFound(id);
+    }
+
+    if (result.failure) {
+      throw new Error(`[crud_controller fetch] ${result.message}`);
+    }
+
+    console.log('[crud_controller fetch]', result.message);
+
+    return new Fetched(result.record);
   }
 
   public async create(name: string, price: number, keywords: string[]) {

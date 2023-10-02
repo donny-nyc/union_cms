@@ -1,6 +1,6 @@
 import { Collection, Db, InsertOneResult, MongoClient, ObjectId } from 'mongodb';
 import Product from '../../types/product';
-import CrudRepo, { BulkInsertResponse, InsertResponse, RemoveResponse, UpdateResponse } from './crud_repo_i';
+import CrudRepo, { FetchResponse, BulkInsertResponse, InsertResponse, RemoveResponse, UpdateResponse } from './crud_repo_i';
 
 export default class MongoCrudRepo implements CrudRepo {
   private client: MongoClient;
@@ -23,6 +23,40 @@ export default class MongoCrudRepo implements CrudRepo {
       console.log('[mongo] connected');
     } catch(e) {
       console.error(e);
+    }
+  }
+
+  public async fetch_by_id(id: string): Promise<FetchResponse> {
+    let objectId;
+
+    try {
+      objectId = new ObjectId(id);
+    } catch (error: any) {
+      return {
+        message: `${error}`,
+        failure: true,
+      }
+    }
+
+    console.log('[mongo fetch]: ', id); 
+    const result = await this.collection.findOne({ _id: objectId });
+
+    if (!result) {
+      return {
+        message: `failed to find ${id}`,
+        failure: true,
+      }
+    }
+
+    return {
+      message: 'Found',
+      failure: false,
+      record: {
+        id: result._id,
+        name: result.name,
+        price: result.price,
+        unit: result.unit,
+      }
     }
   }
 

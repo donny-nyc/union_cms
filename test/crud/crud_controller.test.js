@@ -40,6 +40,16 @@ const crud_repo_i_1 = require("../../src/crud/repos/crud_repo_i");
 const search_1 = __importDefault(require("../../src/search/search"));
 const crudController = crud_controller_1.default.newDummyCrudController();
 const searchController = search_1.default.newDummySearchController();
+describe("crud controller fetch", () => {
+    it("can return an existing record", () => __awaiter(void 0, void 0, void 0, function* () {
+        const result = yield crudController.create("name", 5, ["keywords"]);
+        const fetch = yield crudController.fetch(result.results.at(0).id);
+        const product = fetch.product;
+        expect(product.id).toEqual(result.results.at(0).id);
+        expect(product.name).toEqual(result.results.at(0).name);
+        expect(product.price).toEqual(result.results.at(0).price);
+    }));
+});
 describe("crud controller create", () => {
     it("inserts a new record", () => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield crudController.create("name", 5, ["keywords"]);

@@ -1,14 +1,37 @@
 import request from 'supertest';
 
+describe("GET /crud/:id", () => {
+  it("can return an existing record", async () => {
+    const record = {
+      id: 0,
+      name: 'original',
+      price: 0,
+      keywords: ['original'],
+    };
+
+    const insert = await request("localhost:9999").post("/crud").send(record);
+
+    const id = insert.body.id;
+
+    const getResult = await request("localhost:9999").get(`/crud/${id}`);
+
+    expect(getResult.statusCode).toBe(200);
+    expect(getResult.body.id).toEqual(id);
+    expect(getResult.body.name).toEqual('original');
+    expect(getResult.body.price).toEqual(0);
+    expect(getResult.body.keywords).toEqual(['original']);
+  });
+});
+
 describe("PUT /crud", () => {
   beforeAll(async () => {
     const record = {
       name: 'original',
       price: 0,
-      keywords: [],
+      keywords: ['original'],
     };
 
-    const res = await request("localhost:9999").post("/crud/").send(record);
+    await request("localhost:9999").post("/crud/").send(record);
   });
 
   it("Not found, if no ID is given", async () => {
@@ -24,17 +47,15 @@ describe("PUT /crud", () => {
     expect(res.statusCode).toBe(404);
   }, 30000);
 
-  it.only("OK, if ID is given", async () => {
+  it("OK, if ID is given", async () => {
     const record = {
       id: 0,
       name: 'original',
       price: 0,
-      keywords: [],
+      keywords: ['original'],
     };
 
     const insert = await request("localhost:9999").post("/crud").send(record);
-
-    console.log('insert', insert);
 
     const updated_product = {
       name: "update",
@@ -42,7 +63,7 @@ describe("PUT /crud", () => {
       keywords: ['key1', 'key2', 'key3'],
     };
 
-    const res = await request("localhost:9999").put(`/crud/${record.id}`).send(updated_product);
+    const res = await request("localhost:9999").put(`/crud/${insert.body.id}`).send(updated_product);
 
     expect(res.statusCode).toBe(200);
   });

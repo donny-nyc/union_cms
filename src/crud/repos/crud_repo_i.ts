@@ -44,13 +44,14 @@ export type RemoveResponse = {
   failure: boolean;
 };
 
-export type FindResponse = {
+export type FetchResponse = {
   message: string;
   failure: boolean;
-  records?: any[];
+  record?: any;
 }
 
 export default interface CrudRepo {
+  fetch_by_id(id: string): Promise<FetchResponse>;
   insert(record: Omit<Product, "id">): Promise<InsertResponse>;
   remove(id: string): Promise<RemoveResponse>;
   update(record: Product): Promise<UpdateResponse>;

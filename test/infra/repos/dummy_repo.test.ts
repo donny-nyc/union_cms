@@ -1,15 +1,15 @@
-import Repo from '../../../src/infra/repos/dummy_repo';
-import { InsertResponse, UpdateResponse, RemoveResponse, FindResponse, UpdateSuccessMessage, CreateSuccessMessage } from '../../../src/types/repository';
+import Repo from '../../../src/crud/repos/dummy_repo';
+import { InsertResponse, UpdateResponse, RemoveResponse, FetchResponse, UpdateSuccessMessage, CreateSuccessMessage, RecordNotFound } from '../../../src/crud/repos/crud_repo_i';
 
 describe("insert into dummy repo", () => {
-  it('Returns Success', () => {
+  it('Returns Success', async () => {
     const record = {
       name: 'record',
       price: 0,
       keywords: ['keyword']
     };
 
-    const result: InsertResponse = Repo.insert(record);
+    const result: InsertResponse = await Repo.insert(record);
 
     expect(result.failure).not.toBeTruthy();
 
@@ -18,64 +18,63 @@ describe("insert into dummy repo", () => {
 });
 
 describe("update through dummy repo", () => {
-  it("Succeeds and replaces the original", () => {
+  it("Succeeds and replaces the original", async () => {
     const original = {
-      id: 'id',
-      value: 'original',
+      name: 'original',
+      price: 1,
+      keywords: ['keywords']
     };
+
+    const insertResult: InsertResponse = await Repo.insert(original);
 
     const updated = {
-      id: original.id,
-      value: 'updated',
+      id: insertResult.id,
+      name: 'updated',
     };
 
-    Repo.insert(original);
-
-    const result: UpdateResponse = Repo.update(updated);
+    const result: UpdateResponse = await Repo.update(updated);
 
     expect(result.failure).not.toBeTruthy();
 
-    expect(result.message).toEqual(UpdateSuccessMesssage);
+    expect(result.message).toEqual(UpdateSuccessMessage);
 
-    expect(result.results!.at(0)).toBe(updated);
+    expect(result.records!.at(0)).toBe(updated);
   });
 });
 
-describe("find a record in dummy repo", () => {
-  it("Succeeds and returns the record when it exists", () => {
+describe("fetch a record in dummy repo", () => {
+  it("Succeeds and returns the record when it exists", async () => {
     const record = {
       id: "id",
     };
 
-    Repo.insert(record);
+    await Repo.insert(record);
 
-    const result = Repo.find(record.id);
+    const result = await Repo.find(record.id);
 
-    expect(result instanceof Success).toBeTruthy();
+    expect(result.record).not.toBeNull();
 
-    expect(result.results!.length).toBe(1);
-
-    expect(result.results!.at(0)).toBe(record);
+    expect(result.record).toBe(record);
   });
 
-  it("NotFound when the record does not exist", () => {
+  it("NotFound when the record does not exist", async () => {
     const record = {
       id: "id",
     };
 
-    Repo.insert(record);
+    await Repo.insert(record);
 
     const randomId = Math.floor(Math.random() * 1000) + 1000;
 
-    const result = Repo.find(`${randomId}`);
+    const result = await Repo.find(`${randomId}`);
 
     expect(result instanceof RecordNotFound).toBeTruthy();
   });
 
-  it("NotFound when no record exists", () => {
+  it("NotFound when no record exists", async () => {
     const randomId = Math.floor(Math.random() * 1000) + 1000;
 
-    const result = Repo.find(`${randomId}`);
+    const result = await Repo.find(`${randomId}`);
 
     expect(result instanceof RecordNotFound).toBeTruthy();
   });
@@ -83,30 +82,30 @@ describe("find a record in dummy repo", () => {
 });
 
 describe("remove from dummy repo", () => {
-  it("Succeeds and removes the record", () => {
+  it("Succeeds and removes the record", async () => {
     const record = {
       id: "id"
     };
 
-    Repo.insert(record);
+    await Repo.insert(record);
 
-    Repo.remove(record.id);
+    await Repo.remove(record.id);
 
-    const result = Repo.find(record.id);
+    const result = await Repo.find(record.id);
 
     expect(result instanceof RecordNotFound).toBeTruthy();
   });
 
-  it("NotFound when the record does not exist", () => {
+  it("NotFound when the record does not exist", async () => {
     const record = {
       id: "id",
     };
 
-    Repo.insert(record);
+    await Repo.insert(record);
 
     const randomId = Math.floor(Math.random() * 1000) + 1000;
 
-    const result = Repo.remove(`${randomId}`);
+    const result = await Repo.remove(`${randomId}`);
 
     expect(result instanceof RecordNotFound).toBeTruthy();
   });

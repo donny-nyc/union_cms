@@ -1,4 +1,4 @@
-import CrudRepo, { BulkInsertResponse, CreateSuccessMessage, FindResponse, InsertResponse, RecordNotFound, RemoveResponse, UpdateResponse } from './crud_repo_i';
+import CrudRepo, { BulkInsertResponse, CreateSuccessMessage, FetchResponse, InsertResponse, RecordNotFound, RemoveResponse, UpdateResponse } from './crud_repo_i';
 
 import Store, { InMemoryStore, NotFound } from '../../infra/memory_store';
 import Product from '../../types/product';
@@ -18,6 +18,24 @@ class DummyRepository implements CrudRepo{
 
   public static newRepo() {
     return new DummyRepository(Store);
+  }
+
+  public async fetch_by_id(id: string): Promise<FetchResponse> {
+    console.log('[fetch]', id);
+
+    if (this.store.find(id) instanceof NotFound) {
+      console.log('[Dummy update] record not found');
+      return new RecordNotFound(id);
+    }
+
+    const record = this.store.get(id);
+    console.log('[Dummy fetch] record', record);
+
+    return {
+      message: "found",
+      failure: false,
+      record
+    }
   }
 
   public async bulk_insert(records: Product[]): Promise<BulkInsertResponse> {
@@ -95,7 +113,7 @@ class DummyRepository implements CrudRepo{
     }
   }
 
-  public async find(id: string): Promise<FindResponse> {
+  public async find(id: string): Promise<FetchResponse> {
     if (this.store.find(id) instanceof NotFound) {
       return new RecordNotFound(id);
     }
@@ -103,7 +121,7 @@ class DummyRepository implements CrudRepo{
     return {
       message: "Found record",
       failure: false,
-      records: [this.store.get(id)],
+      record: this.store.get(id),
     }
   }
 }

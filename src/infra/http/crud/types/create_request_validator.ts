@@ -2,8 +2,10 @@ import { Request } from 'express';
 import ErrorMap from './error_map';
 
 class CreateRequestValidator {
-  public validate(req: Request): ErrorMap {
+  public static validate(req: Request): ErrorMap {
     const errors: ErrorMap = {};
+
+    console.log(req.body);
 
     if(req.body.name !== undefined && req.body.name.length === 0) {
       if(!errors['name']) {
@@ -35,6 +37,4 @@ class CreateRequestValidator {
   }
 }
 
-const validator = new CreateRequestValidator();
-
-export default validator;
+export default CreateRequestValidator;

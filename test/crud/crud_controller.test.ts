@@ -1,10 +1,25 @@
-import CrudController, { Removed, Created, Updated, NotFound, CrudControllerResponse, Found } from "../../src/crud/crud_controller";
+import CrudController, { Fetched, Removed, Created, Updated, NotFound, CrudControllerResponse, Found } from "../../src/crud/crud_controller";
 import { UpdateSuccessMessage } from "../../src/crud/repos/crud_repo_i";
 import SearchController from "../../src/search/search";
 import Product from "../../src/types/product";
 
 const crudController = CrudController.newDummyCrudController();
 const searchController = SearchController.newDummySearchController();
+
+describe("crud controller fetch", () => {
+  it("can return an existing record", async () => {
+    const result: Created = await crudController.create("name", 5, ["keywords"]);
+
+    const fetch: Fetched 
+      = await crudController.fetch(result.results.at(0).id) as Fetched;
+
+    const product = fetch.product;
+
+    expect(product.id).toEqual(result.results.at(0).id);
+    expect(product.name).toEqual(result.results.at(0).name);
+    expect(product.price).toEqual(result.results.at(0).price);
+  });
+});
 
 describe("crud controller create", () => {
   it("inserts a new record", async () => {
